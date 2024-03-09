@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="hello-worldFlow1" doc:id="bb05ce9b-008f-47f6-9395-666f1f6ceb48" >
+		<logger level="INFO" doc:name="Logger" doc:id="3815ad57-77f2-48ad-bdd2-26e3e6fa38fc" />
+	</flow>
+	<flow name="hello-worldFlow2" doc:id="a85f6500-b301-42bf-93b2-3e918e8ef973" >
+		<logger level="INFO" doc:name="Logger" doc:id="605632b7-ccb8-42e6-a793-1037bded748d" />
+	</flow>
+	<flow name="hello-worldFlow" doc:id="d1bf6909-1bad-42ce-95e5-2f56b9d54e8b" >
+		<http:listener doc:name="Listener" doc:id="b908e26b-9f45-4d9b-89c4-51bc7e3e5e4b" />
+	</flow>
+</mule>
