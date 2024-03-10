@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</flow>
 	<flow name="queryParams" doc:id="4302fdb7-7130-42d2-b6f2-0253b9b72047" >
 		<http:listener doc:name="Listener" doc:id="748a2dd7-a075-4f4a-ba40-2af5644e89e9" config-ref="HTTP_Listener_config" path="/demo"/>
-		<set-payload value="#['Hello ' ++ attributes.queryParams.uname as String]" doc:name="Set Payload" doc:id="baebfe52-4934-476c-aed0-60762c1c2594" />
+		<set-payload value="#['Hello ' ++ attributes.queryParams.firstname as String ++ ' '&#10;++ attributes.queryParams.lastname as String]" doc:name="Set Payload" doc:id="baebfe52-4934-476c-aed0-60762c1c2594" />
 		<logger level="INFO" doc:name="Logger" doc:id="6cf0cf69-aad8-461f-a33d-d2597ccab051" message="#[payload]"/>
 	</flow>
 </mule>
