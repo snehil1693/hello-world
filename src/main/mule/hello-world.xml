@@ -4,13 +4,17 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<flow name="hello-worldFlow1" doc:id="bb05ce9b-008f-47f6-9395-666f1f6ceb48" >
-		<logger level="INFO" doc:name="Logger" doc:id="3815ad57-77f2-48ad-bdd2-26e3e6fa38fc" />
-	</flow>
-	<flow name="hello-worldFlow2" doc:id="a85f6500-b301-42bf-93b2-3e918e8ef973" >
-		<logger level="INFO" doc:name="Logger" doc:id="605632b7-ccb8-42e6-a793-1037bded748d" />
-	</flow>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c16f4651-b16a-46df-a061-b39fb942c23a" basePath="/x" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
 	<flow name="hello-worldFlow" doc:id="d1bf6909-1bad-42ce-95e5-2f56b9d54e8b" >
-		<http:listener doc:name="Listener" doc:id="b908e26b-9f45-4d9b-89c4-51bc7e3e5e4b" />
+		<http:listener doc:name="Listener" doc:id="b908e26b-9f45-4d9b-89c4-51bc7e3e5e4b" config-ref="HTTP_Listener_config" path="/helloworld"/>
+		<set-payload value="Hello World ! !" doc:name="Set Payload" doc:id="d2b2ba62-0bd3-44b2-a4c6-35314149d572" />
+		<logger level="INFO" doc:name="Logger" doc:id="fabadde8-42f5-4817-9d09-e94ab5099bfe" message="#[payload]"/>
+	</flow>
+	<flow name="queryParams" doc:id="4302fdb7-7130-42d2-b6f2-0253b9b72047" >
+		<http:listener doc:name="Listener" doc:id="748a2dd7-a075-4f4a-ba40-2af5644e89e9" config-ref="HTTP_Listener_config" path="/demo"/>
+		<set-payload value="#['Hello ' ++ attributes.queryParams.uname as String]" doc:name="Set Payload" doc:id="baebfe52-4934-476c-aed0-60762c1c2594" />
+		<logger level="INFO" doc:name="Logger" doc:id="6cf0cf69-aad8-461f-a33d-d2597ccab051" message="#[payload]"/>
 	</flow>
 </mule>
