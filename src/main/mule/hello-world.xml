@@ -7,20 +7,21 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c16f4651-b16a-46df-a061-b39fb942c23a" basePath="/x" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
-	<flow name="hello-worldFlow" doc:id="d1bf6909-1bad-42ce-95e5-2f56b9d54e8b" >
+	<flow name="hello-worldFlow" doc:id="d1bf6909-1bad-42ce-95e5-2f56b9d54e8b" initialState="stopped">
 		<http:listener doc:name="Listener" doc:id="b908e26b-9f45-4d9b-89c4-51bc7e3e5e4b" config-ref="HTTP_Listener_config" path="/helloworld"/>
 		<set-payload value="Hello World ! !" doc:name="Set Payload" doc:id="d2b2ba62-0bd3-44b2-a4c6-35314149d572" />
 		<logger level="INFO" doc:name="Logger" doc:id="fabadde8-42f5-4817-9d09-e94ab5099bfe" message="#[payload]"/>
 	</flow>
-	<flow name="queryParams" doc:id="4302fdb7-7130-42d2-b6f2-0253b9b72047" >
+	<flow name="queryParams" doc:id="4302fdb7-7130-42d2-b6f2-0253b9b72047" initialState="stopped">
 		<http:listener doc:name="Listener" doc:id="748a2dd7-a075-4f4a-ba40-2af5644e89e9" config-ref="HTTP_Listener_config" path="/demo"/>
 		<set-payload value="#['Hello ' ++ attributes.queryParams.firstname as String ++ ' '&#10;++ attributes.queryParams.lastname as String]" doc:name="Set Payload" doc:id="baebfe52-4934-476c-aed0-60762c1c2594" />
 		<logger level="INFO" doc:name="Logger" doc:id="6cf0cf69-aad8-461f-a33d-d2597ccab051" message="#[payload]"/>
 	</flow>
 	<flow name="uriParams" doc:id="302b5fbd-be16-4238-8aad-26ceb95b82aa" >
 		<http:listener doc:name="Listener" doc:id="00879d5c-8af3-4e5e-8934-cd75bdf6a460" config-ref="HTTP_Listener_config" path="/demo/{ucity}/{ucountry}"/>
-		<set-variable value="#['I am ' ++ attributes.queryParams.uname as String ++ ' ' ++ '\n' ++&#10;'from city : ' ++ attributes.uriParams.ucity as String ++ ' ' ++ '\n' ++&#10;'state : ' ++ attributes.queryParams.ustate as String ++ ' ' ++ '\n' ++&#10;'country: ' ++ attributes.uriParams.ucountry as String]" doc:name="Set Variable" doc:id="48f243c9-d02d-4565-9f49-dde16c3927b5" variableName="params"/>
-		<set-payload doc:name="Set Payload" doc:id="00d6bfc7-02f0-4156-a0e8-b08fc1d01aa0" value="#[vars.params]"/>
+		<set-variable value="#['I am ' ++ attributes.queryParams.uname as String ++ ' ' ++ '\n' ++&#10;'from city : ' ++ attributes.uriParams.ucity as String ++ ' ' ++ '\n']" doc:name="params1" doc:id="48f243c9-d02d-4565-9f49-dde16c3927b5" variableName="params1"/>
+		<set-variable value="#['state : ' ++ attributes.queryParams.ustate as String ++ ' ' ++ '\n' ++&#10;'country: ' ++ attributes.uriParams.ucountry as String]" doc:name="params2" doc:id="39609aaf-2bf1-4c16-a42e-53768ac1fc37" variableName="params2"/>
+		<set-payload doc:name="Set Payload" doc:id="00d6bfc7-02f0-4156-a0e8-b08fc1d01aa0" value="#[vars.params1 ++ vars.params2]"/>
 		<logger level="INFO" doc:name="Logger" doc:id="5bc9ae8f-d3f7-4ca0-b1b8-e5bf088a5b5a" message="#[payload]"/>
 	</flow>
 </mule>
