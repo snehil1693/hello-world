@@ -19,7 +19,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</flow>
 	<flow name="uriParams" doc:id="302b5fbd-be16-4238-8aad-26ceb95b82aa" >
 		<http:listener doc:name="Listener" doc:id="00879d5c-8af3-4e5e-8934-cd75bdf6a460" config-ref="HTTP_Listener_config" path="/demo/{ucity}/{ucountry}"/>
-		<set-payload value="#['I am ' ++ attributes.queryParams.uname as String ++ ' ' ++ '\n' ++&#10;'from city : ' ++ attributes.uriParams.ucity as String ++ ' ' ++ '\n' ++&#10;'state : ' ++ attributes.queryParams.ustate as String ++ ' ' ++ '\n' ++&#10;'country: ' ++ attributes.uriParams.ucountry as String]" doc:name="Set Payload" doc:id="00d6bfc7-02f0-4156-a0e8-b08fc1d01aa0" />
+		<set-variable value="#['I am ' ++ attributes.queryParams.uname as String ++ ' ' ++ '\n' ++&#10;'from city : ' ++ attributes.uriParams.ucity as String ++ ' ' ++ '\n' ++&#10;'state : ' ++ attributes.queryParams.ustate as String ++ ' ' ++ '\n' ++&#10;'country: ' ++ attributes.uriParams.ucountry as String]" doc:name="Set Variable" doc:id="48f243c9-d02d-4565-9f49-dde16c3927b5" variableName="params"/>
+		<set-payload doc:name="Set Payload" doc:id="00d6bfc7-02f0-4156-a0e8-b08fc1d01aa0" value="#[vars.params]"/>
 		<logger level="INFO" doc:name="Logger" doc:id="5bc9ae8f-d3f7-4ca0-b1b8-e5bf088a5b5a" message="#[payload]"/>
 	</flow>
 </mule>
