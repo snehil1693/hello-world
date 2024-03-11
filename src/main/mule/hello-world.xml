@@ -17,11 +17,23 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<set-payload value="#['Hello ' ++ attributes.queryParams.firstname as String ++ ' '&#10;++ attributes.queryParams.lastname as String]" doc:name="Set Payload" doc:id="baebfe52-4934-476c-aed0-60762c1c2594" />
 		<logger level="INFO" doc:name="Logger" doc:id="6cf0cf69-aad8-461f-a33d-d2597ccab051" message="#[payload]"/>
 	</flow>
-	<flow name="uriParams" doc:id="302b5fbd-be16-4238-8aad-26ceb95b82aa" >
+	<flow name="uriParams" doc:id="302b5fbd-be16-4238-8aad-26ceb95b82aa" initialState="stopped">
 		<http:listener doc:name="Listener" doc:id="00879d5c-8af3-4e5e-8934-cd75bdf6a460" config-ref="HTTP_Listener_config" path="/demo/{ucity}/{ucountry}"/>
 		<set-variable value="#['I am ' ++ attributes.queryParams.uname as String ++ ' ' ++ '\n' ++&#10;'from city : ' ++ attributes.uriParams.ucity as String ++ ' ' ++ '\n']" doc:name="params1" doc:id="48f243c9-d02d-4565-9f49-dde16c3927b5" variableName="params1"/>
 		<set-variable value="#['state : ' ++ attributes.queryParams.ustate as String ++ ' ' ++ '\n' ++&#10;'country: ' ++ attributes.uriParams.ucountry as String]" doc:name="params2" doc:id="39609aaf-2bf1-4c16-a42e-53768ac1fc37" variableName="params2"/>
 		<set-payload doc:name="Set Payload" doc:id="00d6bfc7-02f0-4156-a0e8-b08fc1d01aa0" value="#[vars.params1 ++ vars.params2]"/>
 		<logger level="INFO" doc:name="Logger" doc:id="5bc9ae8f-d3f7-4ca0-b1b8-e5bf088a5b5a" message="#[payload]"/>
 	</flow>
+	<flow name="newflow" doc:id="eac50000-f9c1-479c-a225-aae9a9860341" >
+		<http:listener doc:name="Listener" doc:id="9685e950-5705-49c7-ab88-525463e840b5" config-ref="HTTP_Listener_config" path="/demo/{ucity}/{ucountry}"/>
+		<flow-ref doc:name="Flow Reference" doc:id="35a2b160-3875-45aa-a95f-d058b4059055" name="newflowsub"/>
+		<set-payload value="#[vars.params1 ++ vars.params2 ++ vars.params3 ++ vars.params4]" doc:name="Set Payload" doc:id="c8e1c8f5-3529-4b3d-b483-fc4ca2e918a3" />
+		<logger level="INFO" doc:name="Logger" doc:id="ce09c032-8f61-41d1-9330-6deb1f53e3df" message="#[payload]"/>
+	</flow>
+	<sub-flow name="newflowsub" doc:id="a9633691-6a71-487a-bc8a-6c4fe4228b71" >
+		<set-variable value="#['I am ' ++ attributes.queryParams.uname as String ++ ' ' ++ '\n']" doc:name="params1" doc:id="d1179ae1-5912-4807-96da-d1817eb3a6be" variableName="params1"/>
+		<set-variable value="#['from city : ' ++ attributes.uriParams.ucity as String ++ ' ' ++ '\n']" doc:name="params2" doc:id="2a7218c3-64d6-45a9-8e5c-2461029247ff" variableName="params2"/>
+		<set-variable value="#['state : ' ++ attributes.queryParams.ustate as String ++ ' ' ++ '\n']" doc:name="params3" doc:id="b07f657f-9d42-4cb9-b5eb-96be0cbbbe44" variableName="params3"/>
+		<set-variable value="#['country: ' ++ attributes.uriParams.ucountry as String]" doc:name="params4" doc:id="70c62f18-759d-466d-a65f-b18c2f0d400a" variableName="params4"/>
+	</sub-flow>
 </mule>
